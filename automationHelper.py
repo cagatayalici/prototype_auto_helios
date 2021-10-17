@@ -72,7 +72,7 @@ def autoRun (command, verbose = True):
     os.chdir(basefilePath)
     
     if verbose == True:    
-        process = subprocess.Popen(shlex.split(command), stdout=subprocess.PIPE, text= True)
+        process = subprocess.Popen(shlex.split(command), stdout=subprocess.PIPE, text=True)
         while True:
             output = process.stdout.readline()
             if output == '' and process.poll() is not None:
