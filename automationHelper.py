@@ -17,9 +17,9 @@ def combineXYZ (bridgeName,isSame,startIndex):
     print("\nCombining xyz files of" + bridgeName + "...\n")
 
     basefilePath = os.getcwd()
-    completePath =  os.path.join(basefilePath, "output\\Survey Playback\\")
+    completePath =  os.path.join(basefilePath, "output//Survey Playback//")
     textFile = bridgeName + "_combined.txt"
-    outputFilePath = os.path.join(basefilePath, "output\\combined",textFile)
+    outputFilePath = os.path.join(basefilePath, "output//combined",textFile)
     os.chdir(completePath)
     
     components = ["abutments","deck","piers","railings","environment"]
@@ -49,7 +49,7 @@ def combineXYZ (bridgeName,isSame,startIndex):
         
         for file in os.listdir():
             
-            readPath =  os.path.join(targetPath,file,"points\\")
+            readPath =  os.path.join(targetPath,file,"points//")
             os.chdir(readPath)
          
             for file in os.listdir():
@@ -94,7 +94,7 @@ def editXML (bridgeName, typeOfXML, component):
     
     if typeOfXML == "scene":
     
-        sceneFile = "data\\scenes\\projects\\dataset"
+        sceneFile = "data//scenes//projects//dataset"
         completeFilePath = os.path.join(basefilePath, sceneFile)
         os.chdir(completeFilePath)
         
@@ -113,7 +113,7 @@ def editXML (bridgeName, typeOfXML, component):
     elif typeOfXML == "survey":
         
         bridgeNumber = bridgeName.replace("bridge","")
-        surveyFile = "data\\surveys\\projects\\dataset\\" + bridgeNumber
+        surveyFile = "data//surveys//projects//dataset//" + bridgeNumber
         completeFilePath = os.path.join(basefilePath, surveyFile)
         os.chdir(completeFilePath)
         
