@@ -21,7 +21,6 @@ valgrind.xml
 # Ignore general stuff
 *.temp
 *.lock
-*.exe
 libhelios.so
 pyhelios.so
 pysimulation_demo.py
