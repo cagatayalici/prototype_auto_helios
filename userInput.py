@@ -16,11 +16,16 @@ startIndex = int(input("\nStart index: "))
 
 bridgeNumber = int(input("Number of bridges: "))
 
-isSame = input("Do the bridges have the same environment[y/n]: ")
-isSame == "y" 
+isSameEnvironment = input("Do the bridges have the same environment[y/n]: ")
+isSameEnvironment = (isSameEnvironment == "y" )
 
-verbose = input("Verbose[y/n]: ")
-verbose == "y"
+# isSameSurvey = input("Do the bridges have the same survey[y/n]: ")
+# isSameSurvey = (isSameSurvey == "y" )
+
+# verbose = input("Verbose[y/n]: ")
+# verbose = (verbose == "y")
+verbose = True 
+
 
 
 # # MANUALLY:
@@ -35,7 +40,7 @@ verbose == "y"
 for i in range (startIndex,startIndex+bridgeNumber):
     bridgeName = "bridge" + str(i)
     print("\nProccessing bridge"+str(i)+"...\n")
-    automaticScan (bridgeName,isSame,startIndex,verbose)
+    automaticScan (bridgeName,isSameEnvironment,startIndex,verbose)
     print("\nScaning of bridge"+str(i)+" is complete!\n")
-    combineXYZ(bridgeName,isSame,startIndex)
+    combineXYZ(bridgeName,isSameEnvironment,startIndex)
     print("\nCombining of xyz files of bridge"+str(i)+" is complete!\n")

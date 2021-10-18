@@ -12,7 +12,7 @@ import subprocess,shlex
 import os
 
 
-def combineXYZ (bridgeName,isSame,startIndex):
+def combineXYZ (bridgeName,isSameEnvironment,startIndex):
     
     print("\nCombining xyz files of" + bridgeName + "...\n")
 
@@ -27,46 +27,51 @@ def combineXYZ (bridgeName,isSame,startIndex):
     writeFile = open(outputFilePath, "w")
     
     for component in components:
-        
-        if(component == "environment" and isSame):
-            fileName = "bridge" + str(startIndex) + "_" + component + "_survey"
-        else:
-            fileName = bridgeName + "_" + component + "_survey"
-        targetPath =  os.path.join(completePath, fileName)
-        os.chdir(targetPath)
-        
-        if(component == "abutments" ):
-            label = 0
-        elif(component == "piers" ):
-            label = 1
-        elif(component == "deck" ):
-            label = 2
-        elif(component == "railings"):
-            label = 3
-        elif(component == "environment"):
-            label = 4
-        
-        
-        for file in os.listdir():
+    
+        try:
+            if(component == "environment" and isSameEnvironment):
+                fileName = "bridge" + str(startIndex) + "_" + component + "_survey"
+            else:
+                fileName = bridgeName + "_" + component + "_survey"
+            targetPath =  os.path.join(completePath, fileName)
+            os.chdir(targetPath)
             
-            readPath =  os.path.join(targetPath,file,"points\\")
-            os.chdir(readPath)
-         
+            if(component == "abutments" ):
+                label = 0
+            elif(component == "piers" ):
+                label = 1
+            elif(component == "deck" ):
+                label = 2
+            elif(component == "railings"):
+                label = 3
+            elif(component == "environment"):
+                label = 4
+            
+            
             for file in os.listdir():
-                if file.endswith(".xyz"):
-                    inputFile =  open(file)
-                    
-                    for line in inputFile:
-                        coordinates =  line.split()[0:3]
-                        L = [coordinates[0] + ' ' +  coordinates[1] + ' ' + coordinates[2] + ' '+ str(label) + "\n"]
-                        writeFile.writelines(L)
+                
+                readPath =  os.path.join(targetPath,file,"points\\")
+                os.chdir(readPath)
+             
+                for file in os.listdir():
+                    if file.endswith(".xyz"):
+                        inputFile =  open(file)
                         
-                    inputFile.close()
+                        for line in inputFile:
+                            coordinates =  line.split()[0:3]
+                            L = [coordinates[0] + ' ' +  coordinates[1] + ' ' + coordinates[2] + ' '+ str(label) + "\n"]
+                            writeFile.writelines(L)
+                            
+                        inputFile.close()
+                    
+        except  OSError as e:
+            print(bridgeName +  "_" + component + ".obj is not found!" )
+            continue  
             
     writeFile.close()  
     os.chdir(basefilePath)
 
-def autoRun (command, verbose = True):
+def autoRun (command, verbose):
     
     basefilePath = os.getcwd()
     os.chdir(basefilePath)
@@ -99,7 +104,6 @@ def editXML (bridgeName, typeOfXML, component):
         os.chdir(completeFilePath)
         
         file = minidom.parse('bridge_scene.xml')
-        # filters = file.getElementsByTagName('filter')
         parameters = file.getElementsByTagName('param')
         
         bridgeNumber = bridgeName.replace("bridge","")
@@ -146,7 +150,7 @@ def editXML (bridgeName, typeOfXML, component):
     
     
        
-def runHelios(bridgeName,component, verbose = True):
+def runHelios(bridgeName,component, verbose):
     
     bridgeNumber = bridgeName.replace("bridge","")
     surveyNames = ["bridgeComponents_survey.xml","environment_survey_airplane.xml","environment_survey_tripod.xml"]
@@ -164,23 +168,30 @@ def runHelios(bridgeName,component, verbose = True):
     
 
 
-def automaticScan (bridgeName,isSame,startIndex,verbose = True):
-
+def automaticScan (bridgeName,isSameEnvironment,startIndex,verbose):
+      
     components = ["abutments","deck","piers","railings","environment"]
     
     for component in components:
-        print("\nscaning " + component + "...")
         
-        if( (component == "environment") and (bridgeName != "bridge" + str(startIndex))):
-            if (not isSame):
+        try:
+            
+            print("\nscaning " + component + "...")
+            
+            if( (component == "environment") and (bridgeName != "bridge" + str(startIndex))):
+                if (not isSameEnvironment):
+                    editXML(bridgeName,"scene",component)
+                    editXML(bridgeName,"survey",component)
+                    runHelios(bridgeName,component,verbose)
+            else:
                 editXML(bridgeName,"scene",component)
                 editXML(bridgeName,"survey",component)
                 runHelios(bridgeName,component,verbose)
-        else:
-            editXML(bridgeName,"scene",component)
-            editXML(bridgeName,"survey",component)
-            runHelios(bridgeName,component,verbose)
-            
+                
+        except  OSError as e:
+            print(bridgeName +  "_" + component + ".obj is not found!" )
+            continue
+                
 
 
 

@@ -2,7 +2,7 @@
     <scene id="bridge_scene" name="Bridge Scene">
         <part>
             <filter type="objloader">
-                <param type="string" key="filepath" value="data/sceneparts/projects/dataset/1/bridge1_environment.obj"/>
+                <param type="string" key="filepath" value="data/sceneparts/projects/dataset/1/bridge1_deck.obj"/>
             </filter>
             <filter type="scale">
                 <param type="double" key="scale" value="1"/>
