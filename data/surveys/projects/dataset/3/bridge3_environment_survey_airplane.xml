@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><document>
-	<survey name="bridge2_environment_survey" platform="data/platforms.xml#sr22" scanner="data/scanners_als.xml#riegl_vq-880g" scene="data/scenes/projects/dataset/bridge_scene.xml#bridge_scene">
+	<survey name="bridge3_environment_survey" platform="data/platforms.xml#sr22" scanner="data/scanners_als.xml#riegl_vq-880g" scene="data/scenes/projects/dataset/bridge_scene.xml#bridge_scene">
 	<!-- platform: plane, deflector: conic -->
 	
 		<!-- leg000 -->		
